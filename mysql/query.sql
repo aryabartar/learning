@@ -1,18 +1,11 @@
-SELECT distinct user.*
-FROM (((user JOIN purchase USING (user_id)) JOIN product USING (product_id)) JOIN category ON product.category_id=category.category_id)
-WHERE category.name="Sport"
-;
-
 SELECT *
-FROM user
-WHERE user_id IN 
-(
-    SELECT purchase.user_id
-    FROM purchase NATURAL JOIN product
-    WHERE product.product_id IN (
-        SELECT DISTINCT product.product_id 
-        FROM product JOIN category USING (category_id)
-        WHERE category.name="Sport"
-    )
-)
+FROM (
+    SELECT user.user_id, sum(purchase.quantity) AS purchaseQuantity
+    FROM ((user NATURAL JOIN purchase) JOIN product 
+        ON purchase.product_id=product.product_id) JOIN category
+            ON product.category_id=category.category_id
+    WHERE category.name="Sport"
+    GROUP BY user.user_id
+) AS sportBuy
+WHERE sportBuy.purchaseQuantity>3
 ;
