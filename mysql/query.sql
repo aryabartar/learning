@@ -1,41 +1,32 @@
--- DELIMITER //
--- CREATE FUNCTION dept_count2 (dept_name VARCHAR(20)) 
--- RETURNS INT 
--- BEGIN
---     DECLARE temp INT;
---     SELECT * 
---     FROM instructor
---     RETURN 12;
--- END //
--- DELIMITER ;
+CREATE TABLE sales(
+    name VARCHAR(256),
+    color VARCHAR(256),
+    size VARCHAR(256),
+    quantity INT
+    
+);
+
+INSERT INTO sales VALUES ('product1', 'Red', 'Small', 2);
+INSERT INTO sales VALUES ('product1', 'Blue', 'small', 3);
+INSERT INTO sales VALUES ('product1', 'Black', 'Small', 0);
+INSERT INTO sales VALUES ('product2', 'Red', 'Small', 12);
+INSERT INTO sales VALUES ('product2', 'Blue', 'Small', 1);
+INSERT INTO sales VALUES ('product2', 'Black', 'Small', 2);
+INSERT INTO sales VALUES ('product3', 'Red', 'Small', 3);
+INSERT INTO sales VALUES ('product3', 'Blue', 'Small', 4);
+INSERT INTO sales VALUES ('product3', 'Black', 'Small', 5);
+INSERT INTO sales VALUES ('product1', 'Red', 'Medium', 2);
+INSERT INTO sales VALUES ('product1', 'Blue', 'Medium', 3);
+INSERT INTO sales VALUES ('product1', 'Black', 'Medium', 0);
+INSERT INTO sales VALUES ('product2', 'Red', 'Medium', 12);
+INSERT INTO sales VALUES ('product2', 'Blue', 'Medium', 1);
+INSERT INTO sales VALUES ('product2', 'Black', 'Medium', 2);
+INSERT INTO sales VALUES ('product3', 'Red', 'Medium', 3);
+INSERT INTO sales VALUES ('product3', 'Blue', 'Medium', 4);
+INSERT INTO sales VALUES ('product3', 'Black', 'Medium', 5);
 
 
-DELIMITER //
-CREATE FUNCTION func4 (dept_name VARCHAR(20), ID INT) RETURNS INT
-  BEGIN
-  	DECLARE tt INT;	
-    DECLARE tt1 INT;
-    SELECT count(*) INTO tt1
-    FROM department
-    WHERE department.dept_name=dept_name; 
-    SELECT count(*) INTO tt
-    FROM department
-    WHERE department.dept_name=dept_name;
-    RETURN tt;
-  END //
-DELIMITER ;
-
-
--- CREATE FUNCTION F_TEST(PID INT) RETURNS VARCHAR
--- BEGIN
--- /*DECLARE VALUES YOU MAY NEED, EXAMPLE:
---   DECLARE NOM_VAR1 DATATYPE [DEFAULT] VALUE;
---   */
---   DECLARE NAME_FOUND VARCHAR DEFAULT "";
-
---     SELECT name INTO NAME_FOUND FROM instructor WHERE ID = PID;
---   RETURN NAME_FOUND;
--- END;
-
--- CREATE FUNCTION hello(id INT) RETURNS VARCHAR(20)
--- RETURN 'FOO';
+SELECT name, color, size, sum(quantity) 
+FROM sales
+group by rollup (name, color, size)
+;
