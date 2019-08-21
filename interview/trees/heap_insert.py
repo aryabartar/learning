@@ -1,36 +1,23 @@
-def delete_max(array):
-    deleted_element = array[0]
-    array[0] = array[-1]
-    array.pop(-1)
+def insert(array, n):
+    array.append(n)
 
-    max_heapify(array, 0)
+    max_heapify(array, len(array) - 1)
 
-    return deleted_element, array
+    return array
 
 
 def max_heapify(array, n):
-    left = get_left(array, n)
-    right = get_right(array, n)
+    parent = get_parent(n)
 
-    if left is None and right is None:
+    if parent is None:
         return
 
-    if right is None:
-        if array[n] < array[left]:
-            replace_position(array, n, left)
-            max_heapify(array, left)
-        else:
-            return
+    if array[parent] < array[n]:
+        replace_position(array, parent, n)
+        max_heapify(array, parent)
 
-    max_value = max(array[n], array[left], array[right])
-
-    if array[left] == max_value:
-        replace_position(array, n, left)
-        max_heapify(array, left)
-
-    if array[right] == max_value:
-        replace_position(array, n, right)
-        max_heapify(array, right)
+    else:
+        return
 
 
 def replace_position(array, i, j):
@@ -58,4 +45,4 @@ def get_parent(n):
     return int((n - 1) / 2)
 
 
-print(delete_max([10, 5, 3, 2, 4]))
+print(insert([10, 5, 3, 2, 4], 15))
