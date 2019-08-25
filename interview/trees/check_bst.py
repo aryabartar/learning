@@ -35,39 +35,28 @@ class Tree(object):
 previous_value = None
 is_bst = True
 
-def check_bst(root):
-    global is_bst
-    _check_bst(root)
-    return is_bst
 
-
-def _check_bst(node):
-    global previous_value
-
+def check_bst(node, min, max):
     if node is None:
-        return
+        return True
 
-    _check_bst(node.left_node)
+    if node.value < min or node.value > max:
+        return False
 
-    if previous_value is not None and node.value < previous_value:
-        global is_bst
-        is_bst = False
-
-    previous_value = node.value
-
-    _check_bst(node.right_node)
-
-
+    return (
+        check_bst(node.left_node, min, node.value) and
+        check_bst(node.right_node, node.value, max)
+    )
 
 
 root = Tree(12)
 left = Tree(5)
 right = Tree(14)
 left_left = Tree(1)
-left_right = Tree(20)
+left_right = Tree(68)
 root.left_node = left
 root.right_node = right
 left.left_node = left_left
 left.right_node = left_right
 
-print(check_bst(root))
+print(check_bst(root, -100, 100))
